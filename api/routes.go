@@ -1,10 +1,12 @@
 package api
 
 import (
+	"net/http"
+
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/soupstoregames/go-tick-yourself/api/handlers"
-	"net/http"
+	"github.com/soupstoregames/go-tick-yourself/game/character"
 )
 
 func BuildRoutes() http.Handler {
@@ -13,6 +15,8 @@ func BuildRoutes() http.Handler {
 	r.Handle("/", handlers.NotImplemented()).Methods(http.MethodGet)
 
 	r.Handle("/metrics", promhttp.Handler()).Methods(http.MethodGet)
+
+	r.Handle("/character", character.GetCharacter()).Methods(http.MethodGet)
 
 	return r
 }

@@ -4,4 +4,5 @@ source 'https://rubygems.org' do
   gem 'httpclient'
   gem 'docker-api'
   gem 'colorize'
+  gem 'pg'
 end

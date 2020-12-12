@@ -1,14 +1,15 @@
 package logging
 
 import (
-	"github.com/sirupsen/logrus"
 	"os"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 var (
 	standardFields logrus.Fields
-	logger *logrus.Logger
+	logger         *logrus.Logger
 )
 
 func init() {
@@ -22,8 +23,8 @@ func init() {
 func SetStandardFields(service, version string) {
 	hostname, _ := os.Hostname()
 	standardFields = logrus.Fields{
-		"service": service,
-		"version": version,
+		"service":  service,
+		"version":  version,
 		"hostname": hostname,
 	}
 }
@@ -44,6 +45,6 @@ func Fatal(msg interface{}) {
 	logger.Fatal(msg)
 }
 
-func WithErr(value error) *logrus.Entry {
+func WithError(value error) *logrus.Entry {
 	return logger.WithField("error", value)
 }

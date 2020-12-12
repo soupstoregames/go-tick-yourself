@@ -9,6 +9,7 @@ GEM
     excon (0.78.1)
     httpclient (2.8.3)
     multi_json (1.15.0)
+    pg (1.2.3-x64-mingw32)
     rake (13.0.1)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
@@ -31,6 +32,7 @@ DEPENDENCIES
   colorize!
   docker-api!
   httpclient!
+  pg!
   rake!
   rspec!
 
