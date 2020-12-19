@@ -2,8 +2,11 @@ package main
 
 import (
 	"github.com/codingconcepts/env"
+	bindata "github.com/golang-migrate/migrate/v4/source/go_bindata"
+
 	"github.com/soupstoregames/go-tick-yourself/api"
 	"github.com/soupstoregames/go-tick-yourself/database"
+	"github.com/soupstoregames/go-tick-yourself/database/migrations"
 	"github.com/soupstoregames/go-tick-yourself/logging"
 )
 
@@ -24,12 +27,16 @@ func main() {
 		logging.WithError(err).Fatal("Failed to read config from env vars")
 	}
 
-	_, err := database.OpenConnection("gotickyourself", conf.Database)
+	db, err := database.OpenConnection("gotickyourself", conf.Database)
 	if err != nil {
 		logging.WithError(err).Error("Failed to connect to postgres")
 	}
 
-	routes := api.BuildRoutes()
+	if err := database.ValidateSchema(db, bindata.Resource(migrations.AssetNames(), migrations.Asset)); err != nil {
+		logging.WithError(err).Error("Failed to validate schema")
+	}
+
+	routes := api.BuildRoutes(db)
 	apiServer := api.NewHTTPServer("0.0.0.0:8080", routes)
 
 	logging.Info("Starting HTTP Server")

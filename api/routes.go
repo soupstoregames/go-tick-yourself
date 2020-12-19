@@ -1,6 +1,7 @@
 package api
 
 import (
+	"database/sql"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -9,14 +10,14 @@ import (
 	"github.com/soupstoregames/go-tick-yourself/game/character"
 )
 
-func BuildRoutes() http.Handler {
+func BuildRoutes(db *sql.DB) http.Handler {
 	r := mux.NewRouter()
 
 	r.Handle("/", handlers.NotImplemented()).Methods(http.MethodGet)
 
 	r.Handle("/metrics", promhttp.Handler()).Methods(http.MethodGet)
 
-	r.Handle("/character", character.GetCharacter()).Methods(http.MethodGet)
+	r.Handle("/character", character.GetCharacter(db)).Methods(http.MethodGet)
 
 	return r
 }

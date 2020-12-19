@@ -1,33 +1,34 @@
 package database
 
 import (
-	"context"
+	"database/sql"
 	"fmt"
+	"time"
 
-	"github.com/jackc/pgx/v4"
+	_ "github.com/lib/pq"
 	"github.com/soupstoregames/go-tick-yourself/logging"
 )
 
-func OpenConnection(dbName string, config Config) (*pgx.Conn, error) {
+func OpenConnection(dbName string, config Config) (*sql.DB, error) {
 	uri := fmt.Sprintf("dbname=%s user=%s password=%s host=%s port=%d", dbName, config.User, config.Password, config.Host, config.Port)
 	if !config.SSL {
 		uri += " sslmode=disable"
 	}
 
-	conn, err := pgx.Connect(context.Background(), uri)
+	db, err := sql.Open("postgres", uri)
 	if err != nil {
 		return nil, err
 	}
 
-	// conn.SetMaxOpenConns(10)
-	// conn.SetMaxIdleConns(4)
-	// conn.SetConnMaxLifetime(4 * time.Second)
+	db.SetMaxOpenConns(10)
+	db.SetMaxIdleConns(4)
+	db.SetConnMaxLifetime(4 * time.Second)
 
-	if err = conn.Ping(context.Background()); err != nil {
+	if err = db.Ping(); err != nil {
 		return nil, err
 	}
 
 	logging.Info(fmt.Sprintf("Connected to PostgreSQL %s/%s", config.Host, dbName))
 
-	return conn, nil
+	return db, nil
 }
