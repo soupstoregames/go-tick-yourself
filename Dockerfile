@@ -5,6 +5,7 @@ COPY [".", "/opt/src/go-tick-yourself"]
 WORKDIR "/opt/src/go-tick-yourself"
 RUN ["go", "generate", "./..."]
 RUN ["go", "build", "-o", "bin/go-tick-yourself", "main.go"]
+CMD ["go", "test", "./..."]
 
 FROM scratch as final
 EXPOSE 8080/tcp

@@ -1,0 +1,6 @@
+FROM ruby:2.7
+WORKDIR "/opt/src/go-tick-yourself"
+COPY ["Gemfile", "Gemfile.lock", "/opt/src/go-tick-yourself"]
+RUN ["bundle", "install"]
+COPY [".", "/opt/src/go-tick-yourself"]
+CMD ["rake", "spec"]
