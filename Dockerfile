@@ -1,7 +1,9 @@
 FROM golang:1.15 as build
 ENV CGO_ENABLED="0" GOOS="linux" GOARCH="amd64"
+RUN ["go", "get", "-u", "github.com/jteeuwen/go-bindata/..."]
 COPY [".", "/opt/src/go-tick-yourself"]
 WORKDIR "/opt/src/go-tick-yourself"
+RUN ["go", "generate", "./..."]
 RUN ["go", "build", "-o", "bin/go-tick-yourself", "main.go"]
 
 FROM scratch as final
