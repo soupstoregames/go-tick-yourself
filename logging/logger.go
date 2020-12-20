@@ -48,3 +48,11 @@ func Fatal(msg interface{}) {
 func WithError(value error) *logrus.Entry {
 	return logger.WithField("error", value)
 }
+
+func WithField(key string, value interface{}) *logrus.Entry {
+	return logger.WithField(key, value)
+}
+
+func WithFields(fields logrus.Fields) *logrus.Entry {
+	return logger.WithFields(fields)
+}
