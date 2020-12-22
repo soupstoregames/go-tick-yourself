@@ -29,7 +29,7 @@ func main() {
 
 	db, err := database.OpenConnection("gotickyourself", conf.Database)
 	if err != nil {
-		logging.WithError(err).Error("Failed to connect to postgres")
+		logging.WithError(err).Fatal("Failed to connect to postgres")
 	}
 
 	if err := database.ValidateSchema(db, bindata.Resource(migrations.AssetNames(), migrations.Asset)); err != nil {
