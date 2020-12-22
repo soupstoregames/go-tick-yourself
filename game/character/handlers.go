@@ -27,7 +27,7 @@ func GetCharacter(db *sql.DB) http.Handler {
 		}
 		character, err := getCharacter(db, uint64(id))
 		if err != nil {
-			w.WriteHeader(http.StatusNoContent)
+			w.WriteHeader(http.StatusNotFound)
 			logging.WithError(err).Error("Failed to get character")
 			return
 		}
