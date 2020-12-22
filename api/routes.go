@@ -17,7 +17,8 @@ func BuildRoutes(db *sql.DB) http.Handler {
 
 	r.Handle("/metrics", promhttp.Handler()).Methods(http.MethodGet)
 
-	r.Handle("/character", character.GetCharacter(db)).Methods(http.MethodGet)
+	r.Handle("/character", character.GetMyCharacter(db)).Methods(http.MethodGet)
+	r.Handle("/character/{id:[0-9]+}", character.GetCharacter(db)).Methods(http.MethodGet)
 
 	return r
 }
